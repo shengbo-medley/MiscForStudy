@@ -17,9 +17,9 @@ k平均法についての軽いエクササイズ
 ruby knearest.rb
 
 # 0回目の結果をプロットさせる
-gnuplot -e "file=0" class.plot
+gnuplot -e "file=0" knearest.plot
 
 # 5回目の結果をプロットさせる
-gnuplot -e "file=5" class.plot
+gnuplot -e "file=5" knearest.plot
 ```
 
