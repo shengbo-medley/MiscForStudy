@@ -32,3 +32,6 @@ gulp/build
 public/assets
 20151107/result/*
 20151107/class*
+
+*.png
+*.eps
