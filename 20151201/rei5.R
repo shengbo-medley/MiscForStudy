@@ -1,0 +1,11 @@
+source("rei4.R")
+library(randomForest)
+set.seed(123)
+fit.rf <- randomForest(y~., data=bank.train)
+fit.rf
+pred <- predict(fit.rf, bank.test)
+(conf.mat <- table(pred, bank.test$y))
+(prec <- conf.mat["yes", "yes"]/sum(conf.mat["yes",]))
+(rec <- conf.mat["yes", "yes"]/sum(conf.mat[,"yes"]))
+(f.value <- 2 * prec * rec / (prec + rec))
+(acc <- sum(diag(conf.mat)/sum(conf.mat)))
