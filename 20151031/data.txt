@@ -1,0 +1,60 @@
+スライドにソースコードを貼る
+
+発表資料にソースコードを貼りたいときなど．
+Keynoteが対象であればhighlightを利用しrtf形式に変換してクリップボードにコピーすれば良い（ref: Keynoteにシンタックスハイライトされたソースコードをはりつける方法 - Qiita）．
+しかし，対象がAdobe Illustratorの場合は話が違ってくる．rtf形式で貼り付けてもプレーンテキストになってしまうため，違うアプローチを取る必要がある
+ここでは，svgファイルに出力して貼り付ける方法を紹介する．
+Install highlight
+
+homebrewから．
+$ brew install highlight
+Generate .svg
+
+Format
+
+highlightでは-O（--out-format）オプションにより出力形式を選択できる．出力可能な形式は以下のとおり:
+html
+xhtml
+latex
+tex
+odt
+rtf
+ansi
+xterm256
+bbcode
+pango
+svg
+Illustratorに貼り付けたいならsvgファイルに出力，Keynoteに貼り付けたいならrtf形式でクリップボードにコピーしたら良い．
+# Keynoteに貼り付けたい場合
+$ highlight -O rtf awesome_code.rb | pbcopy
+
+# Illustratorに貼り付けたい場合
+$ highlight -O svg awesome_code.rb > awesome_code.svg
+Include style
+
+では，先ほどのコマンドでsvgを生成してIllustratorに貼り付ければいいか（rtfならさっきのでOK）．
+残念ながら，これでも残念なコードが貼り付けられてしまう．スタイルが別ファイルに書きだされてしまってるからである．スタイルも同一ファイルに含めるためには-I（--include-style）オプションを付与すれば良い．
+$ highlight -O svg -I awesome_code.rb > awesome_code.svg
+Other options
+
+highlight -hとか打てば確認できる．ここではよく使いそうなのだけ紹介．
+color theme
+
+-s（--style）オプションにより変更可能．利用できるスタイルは以下のコマンドを打てば確認できる．
+$ ls $(highlight --print-config | grep -A 1 "Config file search directories" | tail -n 1)/themes | awk -F. '{print $1}'
+line numbers
+
+-l（--line-numbers）オプションにより付与できる．また，-j（--line-number-length）により桁数を変更できる．デフォルトが結構大きいので，スライドに貼るのが目的なら2とかで十分．
+font
+
+-k（--font）オプションで種類を，-K（--font-size）で大きさを制御できる．
+スライド中のフォントサイズには注意しましょう．
+まとめ
+
+だいたいこんなかんじ．
+$ highlight -O <format> -s <style> --include-style --line-numbers --line-number-length 2 --font Ricty --font-size 24 awesome_code.rb > awesome_code.svg
+Illustratorに貼りたい: svgに書き出す
+Keynoteに貼りたい: rtfにしてコピー
+Reference
+
+Keynoteにシンタックスハイライトされたソースコードをはりつける方法 - Qiita

@@ -7,19 +7,18 @@ end
 next_week = Date.today
 next_monday = next_week - next_week.wday + 1
 
-f = File.open('tmp.txt', 'w')
-5.times do |i|
-  f.puts "#{get_date_with_format(next_monday+i)}
+open('tmp.txt', 'w') do |f|
+  5.times do |i|
+    f.puts "#{get_date_with_format(next_monday+i)}
 ####予定
 ####DONE
 ####TODO
 ####メモ
 ####その他
 "
+  end
+  f.puts '####週末の予定'
 end
-f.puts '##週末の予定'
-
-f.close
 
 system('cat tmp.txt | pbcopy')
 system('rm tmp.txt')
